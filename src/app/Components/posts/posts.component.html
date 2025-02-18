@@ -1,0 +1,14 @@
+<div class="border border-dark border-2 text-center">
+  <app-user-data> </app-user-data>
+  <hr />
+  <p>
+    {{ post.TextBody }}
+  </p>
+  <img [src]="post.src" alt="" />
+  <button (click)="Liked()" class="btn btn-outline-dark m-2">Like</button>
+  <input class="form-control" type="text" name="" id="" [(ngModel)]="Myname" />
+  <p>
+    You Write
+    <span>{{ Myname }} </span>
+  </p>
+</div>
