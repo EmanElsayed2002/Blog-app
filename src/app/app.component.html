@@ -1,2 +1,10 @@
 <app-navbar></app-navbar>
-<app-posts-container></app-posts-container>
+<div class="container mt-4">
+  <div class="row g-2">
+    <app-posts
+      *ngFor="let post of postCard"
+      [post]="post"
+      class="col-10 col-md-5 col-lg-4"
+    ></app-posts>
+  </div>
+</div>

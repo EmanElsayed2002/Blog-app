@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IPost } from '../../models/post.model';
+import { IUser } from '../../models/user.model';
 
 @Component({
   selector: 'app-posts',
@@ -8,15 +9,20 @@ import { IPost } from '../../models/post.model';
 })
 export class PostsComponent {
   Myname: string = '';
-  post: IPost = {
-    TextBody: ` Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed quia officiis
-    doloremque nemo commodi quod. Commodi nulla harum ipsam assumenda
-    dignissimos, pariatur sunt aperiam obcaecati tenetur fugit nobis
-    voluptatibus fugiat.`,
-    src: `https://tse2.mm.bing.net/th?id=OIP.DaW0qim7U77q-Ngb6A3QDQHaEu&pid=Api&P=0&h=220`,
+  @Input() post: IPost = {
+    userData: {
+      name: '',
+      image: '',
+    },
+    TextBody: '',
+    src: '',
+    isLiked: true,
+    createdDate: new Date('12-12-2002'),
+    createdBy: '',
   };
+
   Liked() {
-    console.log('you Liked Post');
+    this.post.isLiked = !this.post.isLiked;
   }
   YouType(e: Event) {
     let t = e.target as HTMLInputElement;

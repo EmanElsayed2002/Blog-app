@@ -4,8 +4,8 @@
     alt=""
     class="rounded-circle col-3"
   />
-  <div class="user-info col-5 text-secondary">
-    <h3>Eman Elsayed</h3>
-    <span>02-18-2025</span>
+  <div class="user-info col-5 text-secondary text-center">
+    <h4>{{ userDetails.createdBy }}</h4>
+    <span>{{ userDetails.createdDate | date : "m/d/y" }}</span>
   </div>
 </div>

@@ -1,14 +1,18 @@
 <div class="border border-dark border-2 text-center">
-  <app-user-data> </app-user-data>
+  <app-user-data [userDetails]="post"> </app-user-data>
   <hr />
   <p>
     {{ post.TextBody }}
   </p>
   <img [src]="post.src" alt="" />
-  <button (click)="Liked()" class="btn btn-outline-dark m-2">Like</button>
-  <input class="form-control" type="text" name="" id="" [(ngModel)]="Myname" />
-  <p>
-    You Write
-    <span>{{ Myname }} </span>
-  </p>
+  <div class="user-actions d-flex flex-row">
+    <button
+      (click)="Liked()"
+      class="bi border border-0 p-3 m-1 rounded-circle"
+      [ngClass]="{
+        'bi-heart': !post.isLiked,
+        'bi-heart-fill': post.isLiked
+      }"
+    ></button>
+  </div>
 </div>
