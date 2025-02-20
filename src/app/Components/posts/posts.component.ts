@@ -1,32 +1,57 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { IPost } from '../../models/post.model';
-import { IUser } from '../../models/user.model';
+import { PostsService } from '../../posts.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  styleUrl: './posts.component.css',
+  styleUrls: ['./posts.component.css'],
 })
 export class PostsComponent {
-  Myname: string = '';
-  @Input() post: IPost = {
-    userData: {
-      name: '',
-      image: '',
-    },
-    TextBody: '',
-    src: '',
-    isLiked: true,
-    createdDate: new Date('12-12-2002'),
-    createdBy: '',
-  };
+  posts: IPost[] = [];
+  commentBtn = false;
+  showForm = false; // Controls form visibility
 
-  Liked() {
-    this.post.isLiked = !this.post.isLiked;
+  constructor(private postService: PostsService) {
+    this.posts = postService.postDetails;
   }
-  YouType(e: Event) {
-    let t = e.target as HTMLInputElement;
-    console.log(t.value);
-    this.Myname = t.value;
+
+  toggleCommentBtn(): void {
+    this.commentBtn = !this.commentBtn;
+  }
+
+  toggleForm() {
+    this.showForm = !this.showForm; // Show or hide form
+  }
+
+  postForm = new FormGroup({
+    TextBody: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    src: new FormControl('', [Validators.required]),
+  });
+
+  addPost() {
+    if (this.postForm.valid) {
+      const newPost: IPost = {
+        id: Date.now(),
+        userData: {
+          name: 'eman',
+          image:
+            'https://ukmadcat.com/wp-content/uploads/2019/04/sleepy-cat.jpg',
+          date: new Date(),
+        },
+        TextBody: this.postForm.value.TextBody || '',
+        src: this.postForm.value.src || '',
+        isLiked: false,
+        createdDate: new Date(),
+      };
+
+      this.postService.addNewPost(newPost);
+      this.postForm.reset();
+      this.showForm = false;
+    }
   }
 }

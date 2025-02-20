@@ -1,11 +1,7 @@
-<div class="row gx-1 m-2">
-  <img
-    src="https://tse4.mm.bing.net/th?id=OIP.voVmH_P-WhYnjVZYb-WUhwHaHa&pid=Api&P=0&h=220"
-    alt=""
-    class="rounded-circle col-3"
-  />
-  <div class="user-info col-5 text-secondary text-center">
-    <h4>{{ userDetails.createdBy }}</h4>
-    <span>{{ userDetails.createdDate | date : "m/d/y" }}</span>
+<div class="user-info col-5 text-secondary text-center d-flex flex-row p-2">
+  <img [src]="post.image" class="rounded-circle col-3 me-2" />
+  <div>
+    <h3>{{ post.name }}</h3>
+    <p>{{ post.date | date : "d/m/y" }}</p>
   </div>
 </div>

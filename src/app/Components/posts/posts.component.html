@@ -1,18 +1,114 @@
-<div class="border border-dark border-2 text-center">
-  <app-user-data [userDetails]="post"> </app-user-data>
-  <hr />
-  <p>
-    {{ post.TextBody }}
-  </p>
-  <img [src]="post.src" alt="" />
-  <div class="user-actions d-flex flex-row">
-    <button
-      (click)="Liked()"
-      class="bi border border-0 p-3 m-1 rounded-circle"
-      [ngClass]="{
-        'bi-heart': !post.isLiked,
-        'bi-heart-fill': post.isLiked
-      }"
-    ></button>
+<div class="container mt-2">
+  <div
+    *ngIf="showForm"
+    class="container mt-4 border p-3 justify-content-between"
+  >
+    <h2>Add a New Post</h2>
+    <form [formGroup]="postForm" (ngSubmit)="addPost()">
+      <div class="form-group">
+        <label for="textBody">Post Content</label>
+        <input
+          id="textBody"
+          type="text"
+          class="form-control"
+          formControlName="TextBody"
+        />
+        <small
+          class="text-danger"
+          *ngIf="
+            postForm.get('TextBody')?.invalid &&
+            postForm.get('TextBody')?.touched
+          "
+        >
+          Post content is required (min 3 characters).
+        </small>
+      </div>
+
+      <div class="form-group mt-2">
+        <label for="src">Image URL</label>
+        <input
+          id="src"
+          type="text"
+          class="form-control"
+          formControlName="src"
+        />
+        <small
+          class="text-danger"
+          *ngIf="postForm.get('src')?.invalid && postForm.get('src')?.touched"
+        >
+          Image URL is required.
+        </small>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary mt-3 me-4"
+        [disabled]="postForm.invalid"
+      >
+        Submit
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary mt-3"
+        (click)="toggleForm()"
+      >
+        Cancel
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="!showForm">
+    <div class="container">
+      <div class="row g-4 justify-content-center">
+        <div *ngFor="let post of posts" class="col-12 col-md-6 col-lg-4">
+          <div class="card border-1 shadow-sm p-3 rounded">
+            <app-user-data [post]="post.userData"></app-user-data>
+            <hr />
+            <p class="text-muted">{{ post.TextBody }}</p>
+            <img [src]="post.src" alt="Post Image" class="w-100 rounded" />
+            <div class="user-actions d-flex justify-content-between p-2">
+              <button
+                (click)="post.isLiked = !post.isLiked"
+                class="btn p-2 rounded-circle"
+                [ngClass]="{
+                  'btn-outline-danger': !post.isLiked,
+                  'btn-danger': post.isLiked
+                }"
+              >
+                <i
+                  class="bi"
+                  [ngClass]="{
+                    'bi-heart': !post.isLiked,
+                    'bi-heart-fill': post.isLiked
+                  }"
+                ></i>
+              </button>
+              <button
+                class="btn btn-outline-primary p-2 rounded-circle"
+                (click)="toggleCommentBtn()"
+              >
+                <i class="bi bi-chat-text"></i>
+              </button>
+              <button class="btn btn-outline-secondary p-2 rounded-circle">
+                <i class="bi bi-share"></i>
+              </button>
+            </div>
+            <input
+              type="text"
+              *ngIf="commentBtn"
+              class="form-control my-2"
+              placeholder="Write a comment..."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<button
+  (click)="toggleForm()"
+  class="rounded-circle p-4 bg-success text-white border border-5 position-fixed bottom-0 end-0 me-4 mb-2"
+>
+  +
+</button>
